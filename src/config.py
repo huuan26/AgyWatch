@@ -8,6 +8,20 @@ from typing import Any
 
 DEFAULT_CONFIG_PATH = Path(__file__).resolve().parent.parent / "config.json"
 AGY_TELE_CONFIG_PATH = Path("C:/Users/ADMIN/Documents/Anti-Tele-An/config.json")
+SETTINGS_PATH = Path.home() / ".gemini" / "antigravity-cli" / "settings.json"
+
+
+def get_active_local_model() -> str:
+    """Đọc model mà máy tính đang dùng hiện tại trong Antigravity CLI."""
+    if SETTINGS_PATH.exists():
+        try:
+            data = json.loads(SETTINGS_PATH.read_text(encoding="utf-8"))
+            model = data.get("model")
+            if model and str(model).strip():
+                return str(model).strip()
+        except Exception:
+            pass
+    return "auto"
 
 
 @dataclass
@@ -63,11 +77,17 @@ class WatchConfig:
         raw_ids = data.get("allowed_user_ids", [])
         allowed_ids = [int(uid) for uid in raw_ids if str(uid).strip().isdigit()]
 
+        raw_model = str(data.get("default_model", "auto")).strip()
+        if not raw_model or raw_model.lower() in ("auto", "local", "current"):
+            default_model = get_active_local_model()
+        else:
+            default_model = raw_model
+
         return cls(
             bot_token=str(data.get("bot_token", "")).strip(),
             allowed_user_ids=allowed_ids,
             poll_interval_seconds=int(data.get("poll_interval_seconds", 60)),
-            default_model=str(data.get("default_model", "gemini-4-argon-high")).strip(),
+            default_model=default_model,
             auto_review_new_prs=bool(data.get("auto_review_new_prs", False)),
             auto_notify_telegram=bool(data.get("auto_notify_telegram", True)),
             repos=repos,
