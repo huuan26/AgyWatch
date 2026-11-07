@@ -15,8 +15,8 @@
 
 <p align="center">
   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.10%2B-blue?style=flat-square" alt="Python 3.10+" /></a>
-  <a href="#features"><img src="https://img.shields.io/badge/Dependencies-Zero%20(Stdlib)-success?style=flat-square" alt="Zero Dependencies" /></a>
-  <a href="#features"><img src="https://img.shields.io/badge/Protocol-Stream--JSON%20(NDJSON)-orange?style=flat-square" alt="Stream-JSON" /></a>
+  <a href="#purpose"><img src="https://img.shields.io/badge/Dependencies-Zero%20(Stdlib)-success?style=flat-square" alt="Zero Dependencies" /></a>
+  <a href="#architecture"><img src="https://img.shields.io/badge/Protocol-Stream--JSON%20(NDJSON)-orange?style=flat-square" alt="Stream-JSON" /></a>
   <a href="#unified-bot-integration-with-agytele"><img src="https://img.shields.io/badge/AgyTele-Co--Bot%20Ready-emerald?style=flat-square" alt="Co-Bot Ready" /></a>
 </p>
 
@@ -24,19 +24,15 @@
 
 ---
 
-## Overview
+## Purpose
 
-AgyWatch is an autonomous Git and CI watchdog daemon written in pure Python (`asyncio`) for the Google Antigravity CLI (`agy`). It monitors repositories in the background, triggers automated code reviews for new pull requests, diagnoses failed test suites and CI runs, and sends alerts via Telegram.
+AgyWatch is a lightweight, zero-dependency background daemon designed to automate Git repository maintenance for Google Antigravity CLI users.
 
----
-
-## Features
-
-- **Zero External Dependencies**: Built entirely with Python 3.10+ standard libraries (`asyncio`, `urllib.request`, `json`, `socket`, `dataclasses`, `pathlib`). No `pip install` required.
-- **Automated PR Review**: Fetches git diffs via `gh`, invokes `agy --output-format stream-json`, and returns structured reviews with `APPROVE`, `REQUEST_CHANGES`, or `COMMENT` verdicts.
-- **CI and Test Diagnostics**: Detects failed `pytest` or GitHub Actions runs, extracts error tracebacks, and prompts the agent to perform root-cause analysis and generate code patches.
-- **Local Model Auto-Sync**: Automatically detects the active AI model from local Antigravity settings (`~/.gemini/antigravity-cli/settings.json`) without hardcoded model strings.
-- **Co-Bot Ready**: Can run standalone or mount directly into an existing [AgyTele](https://github.com/huuan26/AgyTele) instance using a single Telegram bot token.
+It continuously monitors your repositories to:
+- Review incoming pull requests with automated code analysis and structured verdicts (`APPROVE`, `REQUEST_CHANGES`, `COMMENT`).
+- Diagnose broken tests (`pytest`) and failed GitHub Actions CI runs with root-cause analysis and proposed patches.
+- Deliver real-time status alerts and interactive review actions directly to Telegram.
+- Automatically track whichever AI model is currently active on your local machine.
 
 ---
 
