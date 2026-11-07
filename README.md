@@ -1,9 +1,16 @@
 <div align="center">
 
-<img src="assets/agy_watch_banner.svg" alt="AgyWatch Banner" width="100%" />
+<pre align="center">
+ █████╗  ██████╗ ██╗   ██╗██╗    ██╗ █████╗ ████████╗ ██████╗██╗  ██╗
+██╔══██╗██╔════╝ ╚██╗ ██╔╝██║    ██║██╔══██╗╚══██╔══╝██╔════╝██║  ██║
+███████║██║  ███╗ ╚████╔╝ ██║ █╗ ██║███████║   ██║   ██║     ███████║
+██╔══██║██║   ██║  ╚██╔╝  ██║███╗██║██╔══██║   ██║   ██║     ██╔══██║
+██║  ██║╚██████╔╝   ██║   ╚███╔███╔╝██║  ██║   ██║   ╚██████╗██║  ██║
+╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝
+</pre>
 
 <p align="center">
-  <strong>Autonomous Git, Pull Request &amp; CI Watchdog Daemon for Google Antigravity CLI (agy)</strong>
+  <strong>Autonomous Git, Pull Request and CI Watchdog Daemon for Google Antigravity CLI (agy)</strong>
 </p>
 
 <p align="center">
@@ -32,12 +39,13 @@
 
 ## Overview
 
-**AgyWatch** là hệ thống daemon giám sát tự động (Watchdog) viết hoàn toàn bằng Python chuẩn (`asyncio`), đóng vai trò như một kỹ sư AI túc trực 24/7 cho các kho mã nguồn của bạn.
+AgyWatch là hệ thống daemon giám sát tự động (Watchdog) được phát triển bằng Python chuẩn (`asyncio`), đóng vai trò như một trợ lý kỹ thuật trực tuyến liên tục cho các kho mã nguồn Git của bạn.
 
-Hệ thống theo dõi liên tục trạng thái repository (local & remote qua GitHub CLI):
-1. **Tự động phát hiện Pull Request mới**: Quét diff, kích hoạt **Google Antigravity CLI (`agy`)** phân tích thuật toán, cấu trúc vector hóa, độ phủ test và trả về báo cáo review kèm khuyến nghị `APPROVE` / `REQUEST_CHANGES`.
-2. **Bác sĩ tự động (CI / Test Doctor)**: Khi phát hiện `pytest` hoặc GitHub Actions CI bị fail, trích xuất traceback lỗi đưa cho Antigravity chẩn đoán root-cause và đề xuất bản vá code tức thì.
-3. **Thông báo & Tương tác 2 chiều qua Telegram**: Bắn thông báo ngay lên smartphone với các nút bấm trực quan: `[🔍 Review PR]`, `[🚀 Approve lên GitHub]`, `[🩺 Chẩn đoán lỗi]`.
+Hệ thống hoạt động ngầm và theo dõi trạng thái repository theo chu kỳ:
+1. **Phát hiện Pull Request mới**: Quét git diff, kích hoạt Google Antigravity CLI (`agy`) phân tích cấu trúc mã nguồn, tính toán học, chuẩn vector hóa và độ phủ kiểm thử; sau đó trả về bản đánh giá kèm khuyến nghị `APPROVE`, `REQUEST_CHANGES` hoặc `COMMENT`.
+2. **Chẩn đoán kiểm thử và CI (Self-Healing Doctor)**: Khi phát hiện `pytest` hoặc GitHub Actions CI thất bại, hệ thống tự động trích xuất traceback lỗi, gửi đến Antigravity để phân tích nguyên nhân gốc rễ (Root Cause Analysis) và đề xuất bản vá tương ứng.
+3. **Điều khiển và thông báo hai chiều qua Telegram**: Chuyển tiếp trạng thái đến Telegram kèm các nút thao tác trực tiếp: `[Review PR]`, `[Approve trên GitHub]`, `[Chẩn đoán lỗi]`.
+4. **Tự động đồng bộ Model**: Tự động nhận diện model AI mà máy tính đang sử dụng trong Antigravity CLI (`~/.gemini/antigravity-cli/settings.json`) thay vì cố định một model cụ thể.
 
 ---
 
@@ -54,46 +62,46 @@ Hệ thống theo dõi liên tục trạng thái repository (local & remote qua 
     <tr>
       <td>
         <strong>Zero External Dependencies</strong><br />
-        Chạy tức thì trên mọi môi trường chuẩn.
+        Hoạt động ngay trên môi trường Python tiêu chuẩn mà không cần cài đặt thêm thư viện bên ngoài.
       </td>
       <td>
-        Xây dựng 100% bằng thư viện tiêu chuẩn của Python 3.10+: <code>asyncio</code>, <code>urllib.request</code>, <code>json</code>, <code>socket</code>, <code>dataclasses</code>, <code>pathlib</code>. Không cần <code>pip install</code>.
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <strong>Tự Động Đánh Giá PR Chuyên Sâu</strong><br />
-        Review cấu trúc toán học & hiệu năng.
-      </td>
-      <td>
-        Trích xuất git diff từ <code>gh pr diff</code>, kích hoạt <code>agy --output-format stream-json</code> với prompt thẩm định chuyên biệt, tự động phát hiện vi phạm vector hóa hoặc lỗi biên tính toán.
+        Sử dụng độc quyền các module tiêu chuẩn của Python 3.10+: <code>asyncio</code>, <code>urllib.request</code>, <code>json</code>, <code>socket</code>, <code>dataclasses</code>, <code>pathlib</code>. Không cần bước <code>pip install</code>.
       </td>
     </tr>
     <tr>
       <td>
-        <strong>Chẩn Đoán Lỗi Tự Động (Self-Healing Doctor)</strong><br />
-        Khám sức khỏe kiểm thử và CI runs.
+        <strong>Đánh giá Pull Request tự động</strong><br />
+        Phân tích chuyên sâu thuật toán và kiến trúc mã nguồn.
       </td>
       <td>
-        Giám sát <code>gh run list</code> và test suite cục bộ. Tự động gom failed traceback, triệu hồi Agent phân tích nguyên nhân gốc rễ và tạo snippet sửa lỗi.
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <strong>Thiết Kế Khả Tích Hợp (Co-Bot Ready)</strong><br />
-        Dùng chung 1 bot với <code>AgyTele</code>.
-      </td>
-      <td>
-        Cung cấp hàm <code>attach_to_agy_tele()</code>. Cho phép nhúng trực tiếp toàn bộ daemon và menu lệnh vào bot <b>AgyTele</b> đang chạy mà không gây xung đột polling (HTTP 409 Conflict).
+        Thu thập thông tin và git diff thông qua <code>gh pr diff</code>, khởi chạy <code>agy --output-format stream-json</code> với prompt thẩm định chuyên biệt, phát hiện sớm các vi phạm cấu trúc hoặc lỗi xử lý biên.
       </td>
     </tr>
     <tr>
       <td>
-        <strong>Khóa Socket Đơn Tiến Trình (Port 9879)</strong><br />
-        Ngăn chặn chạy trùng lặp ở chế độ Standalone.
+        <strong>Chẩn đoán và khắc phục lỗi tự động</strong><br />
+        Kiểm tra sức khỏe bộ test và workflow CI.
       </td>
       <td>
-        Bắt buộc ràng buộc socket trên <code>127.0.0.1:9879</code>. Đảm bảo an toàn tài nguyên khi chạy nền.
+        Theo dõi <code>gh run list</code> và test runner cục bộ. Tự động thu thập log thất bại, kích hoạt agent phân tích nguyên nhân và đưa ra gợi ý sửa đổi.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Tích hợp dùng chung bot với AgyTele</strong><br />
+        Hợp nhất vào cùng một Bot Telegram duy nhất.
+      </td>
+      <td>
+        Cung cấp hàm <code>attach_to_agy_tele()</code> cho phép nhúng router và vòng lặp daemon trực tiếp vào phiên làm việc của AgyTele, tránh hiện tượng xung đột polling (HTTP 409 Conflict).
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Khóa Socket đơn tiến trình (Port 9879)</strong><br />
+        Ngăn chặn việc khởi chạy trùng lặp ở chế độ độc lập.
+      </td>
+      <td>
+        Ràng buộc cổng nội bộ <code>127.0.0.1:9879</code> khi khởi động phiên độc lập, đảm bảo an toàn tài nguyên hệ thống.
       </td>
     </tr>
   </tbody>
@@ -130,11 +138,11 @@ Hệ thống theo dõi liên tục trạng thái repository (local & remote qua 
 
 ## Unified Bot Integration with AgyTele
 
-Nếu bạn đã có **AgyTele** (`Anti-Tele-An`) đang chạy, bạn **không cần mở 2 bot riêng biệt**. Bạn có thể kết hợp cả 2 dùng chung 1 Bot Telegram duy nhất chỉ với **3 dòng code**:
+Nếu bạn đang sử dụng **AgyTele** (`Anti-Tele-An`), hệ thống hỗ trợ tích hợp trực tiếp để dùng chung một Bot Telegram duy nhất mà không cần tạo thêm bot mới.
 
-### Hướng dẫn tích hợp vào `Anti-Tele-An/main.py`:
+### Cách tích hợp vào `Anti-Tele-An/main.py`:
 
-Mở file `C:\Users\ADMIN\Documents\Anti-Tele-An\main.py`, thêm import và dòng gắn kết nối ngay sau khi tạo `router`:
+Mở file `C:\Users\ADMIN\Documents\Anti-Tele-An\main.py`, thêm import và dòng gắn dịch vụ sau khi khởi tạo `router`:
 
 ```python
 # Thêm import ở đầu file:
@@ -142,16 +150,16 @@ import sys
 sys.path.append("C:/Users/ADMIN/Documents/AgyWatch")
 from src.integration import attach_to_agy_tele
 
-# Trong hàm run_bot(), ngay sau dòng:
+# Trong hàm run_bot(), ngay sau dòng khởi tạo router:
 router = BotRouter(tg, state, bridge)
 
-# THÊM DÒNG NÀY:
+# Thêm dòng này để kích hoạt AgyWatch chạy song song:
 attach_to_agy_tele(tele_router=router, tele_tg=tg)
 ```
 
-**Kết quả:**
-- Bot Telegram hiện tại của bạn sẽ có đầy đủ các tính năng lập trình của AgyTele **VÀ** các tính năng giám sát PR/CI của AgyWatch.
-- Không lo bị lỗi `409 Conflict: terminated by other getUpdates request`.
+**Ưu điểm:**
+- Bot Telegram duy nhất vừa xử lý các tác vụ phát triển của AgyTele vừa tự động giám sát PR/CI của AgyWatch.
+- Tránh xung đột kết nối Telegram Long-polling.
 
 ---
 
@@ -159,36 +167,36 @@ attach_to_agy_tele(tele_router=router, tele_tg=tg)
 
 | Lệnh | Cú pháp | Chức năng | Giao diện |
 | :--- | :--- | :--- | :--- |
-| `/watch` | `/watch [status\|check]` | Kiểm tra trạng thái daemon, danh sách repo theo dõi, hoặc ép quét ngay lập tức (`/watch check`) | Text |
-| `/prs` | `/prs [repo_name]` | Liệt kê các Pull Request đang mở kèm nút bấm Review nhanh | Inline Buttons |
-| `/review` | `/review <PR_NUM> [repo]` | Yêu cầu Antigravity CLI phân tích sâu mã nguồn và gửi báo cáo chi tiết | Inline Buttons |
-| `/doctor` | `/doctor [local_path]` | Chạy kiểm thử cục bộ (`pytest`) hoặc khám lỗi CI Actions gần nhất | Text |
+| `/watch` | `/watch [status\|check]` | Kiểm tra trạng thái daemon, danh sách repository hoặc yêu cầu quét ngay lập tức (`/watch check`) | Tin nhắn văn bản |
+| `/prs` | `/prs [repo_name]` | Hiển thị danh sách các Pull Request đang mở kèm nút bấm xem xét nhanh | Inline Keyboard |
+| `/review` | `/review <PR_NUMBER> [repo]` | Kích hoạt Antigravity CLI phân tích mã nguồn PR và gửi báo cáo chi tiết | Inline Keyboard |
+| `/doctor` | `/doctor [local_path]` | Chạy bộ kiểm thử cục bộ (`pytest`) hoặc chẩn đoán log lỗi từ GitHub Actions CI | Tin nhắn văn bản |
 
 ---
 
 ## Quick Start (Standalone Mode)
 
-Nếu muốn chạy AgyWatch như một ứng dụng độc lập riêng biệt:
+Khi sử dụng AgyWatch ở chế độ daemon độc lập:
 
-### 1. Khởi chạy bằng một cú nhấp chuột (Windows):
+### 1. Khởi chạy bằng kịch bản Windows:
 Nhấp đúp chuột vào file `run.bat`.
 
 ### 2. Khởi chạy bằng dòng lệnh:
 ```bash
-# Thiết lập cấu hình nhanh qua wizard tương tác
+# Cấu hình tham số qua giao diện tương tác
 python setup.py
 
-# Khởi chạy daemon
+# Khởi động tiến trình giám sát
 python main.py
 ```
 
-### 3. File cấu hình mẫu (`config.json`):
+### 3. Cấu hình mẫu (`config.json`):
 ```json
 {
   "bot_token": "YOUR_TELEGRAM_BOT_TOKEN",
   "allowed_user_ids": [6876958198],
   "poll_interval_seconds": 60,
-  "default_model": "gemini-4-argon-high",
+  "default_model": "auto",
   "auto_review_new_prs": false,
   "auto_notify_telegram": true,
   "repos": [
@@ -204,42 +212,42 @@ python main.py
 }
 ```
 
+*Lưu ý: Khi `default_model` được đặt là `"auto"`, hệ thống sẽ tự động sử dụng model mà máy tính đang kích hoạt trong Antigravity CLI.*
+
 ---
 
 ## Project Structure
 
 ```text
 AgyWatch/
-├── assets/
-│   └── agy_watch_banner.svg   # Scalable pixel art radar banner
 ├── data/
-│   └── state.json             # Bộ lưu trữ trạng thái PRs & CI đã duyệt
+│   └── state.json             # Lưu trữ định danh PR và CI đã xử lý
 ├── src/
-│   ├── __init__.py            # Khai báo package và export interfaces
-│   ├── agy_runner.py          # Subprocess runner stream-json của Antigravity CLI
-│   ├── config.py              # Schema & nạp cấu hình (hỗ trợ kế thừa AgyTele)
-│   ├── doctor.py              # Bác sĩ tự động phân tích root-cause test & CI
-│   ├── git_inspector.py       # Async wrapper cho Git & GitHub CLI (gh)
-│   ├── integration.py         # Cầu nối tích hợp AgyWatch vào AgyTele dùng chung 1 bot
-│   ├── reviewer.py            # Engine tạo prompt review PR và phân loại kết quả
-│   ├── telegram_api.py        # HTTP Client Telegram thuần Python (Zero-deps)
-│   ├── watch_router.py        # Bộ định tuyến lệnh Telegram cho AgyWatch
-│   └── watch_service.py       # Vòng lặp daemon bất đồng bộ trung tâm
+│   ├── __init__.py            # Export giao diện công khai
+│   ├── agy_runner.py          # Quản lý tiến trình stream-json của Antigravity CLI
+│   ├── config.py              # Đọc cấu hình và phát hiện model local
+│   ├── doctor.py              # Engine chẩn đoán kiểm thử và workflow CI
+│   ├── git_inspector.py       # Wrapper tương tác Git và GitHub CLI (gh)
+│   ├── integration.py         # Hàm kết nối tích hợp vào AgyTele
+│   ├── reviewer.py            # Tạo prompt đánh giá PR và phân loại kết luận
+│   ├── telegram_api.py        # Client HTTP Telegram thuần Python
+│   ├── watch_router.py        # Bộ định tuyến lệnh và callback cho Telegram
+│   └── watch_service.py       # Vòng lặp giám sát bất đồng bộ trung tâm
 ├── tests/
-│   └── test_core.py           # Unit tests kiểm tra logic cốt lõi
-├── config.example.json        # Cấu hình tham chiếu mẫu
-├── config.json                # Cấu hình đang sử dụng
-├── main.py                    # Điểm khởi động Standalone & Socket lock 9879
-├── run.bat                    # Launcher 1-click Windows
-├── setup.py                   # Wizard cài đặt tương tác
-└── README.md                  # Hướng dẫn chi tiết dự án
+│   └── test_core.py           # Bộ kiểm thử đơn vị
+├── config.example.json        # File cấu hình tham chiếu mẫu
+├── config.json                # File cấu hình hoạt động cục bộ (được bỏ qua bởi git)
+├── main.py                    # Điểm khởi chạy chế độ độc lập (Socket lock 9879)
+├── run.bat                    # Kịch bản khởi chạy trên Windows
+├── setup.py                   # Trình cài đặt cấu hình tương tác
+└── README.md                  # Tài liệu hướng dẫn sử dụng
 ```
 
 ---
 
 ## Verification and Testing
 
-Chạy toàn bộ unit test tích hợp sẵn bằng test runner nguyên bản của Python:
+Thực thi bộ kiểm thử đơn vị bằng test runner nguyên bản của Python:
 
 ```bash
 python -m unittest discover -s tests -v
@@ -250,6 +258,6 @@ python -m unittest discover -s tests -v
 <div align="center">
 
 **AgyWatch &bull; Autonomous Git &amp; CI Watchdog for Google Antigravity**  
-Maintained with ❤️ by [huuan26](https://github.com/huuan26)
+Maintained by [huuan26](https://github.com/huuan26)
 
 </div>
